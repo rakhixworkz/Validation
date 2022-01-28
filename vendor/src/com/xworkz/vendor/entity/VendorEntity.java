@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -16,6 +20,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name="vendor_details")
+@NamedQueries({
+	@NamedQuery(name="findLogin",query=" select vendor from VendorEntity vendor where vendor.loginName=:login and vendor.password=:pwd"),
+	@NamedQuery(name="findByEmail",query="select vendor from VendorEntity vendor where vendor.email=:em"),
+	@NamedQuery(name="updatePasswordByEmail",query="update  from VendorEntity vendor set password=:pass where email=:em")
+})
+
 public class VendorEntity {
 	@Id
 	@Column(name="v_id")
@@ -33,7 +43,7 @@ public class VendorEntity {
 	private String address;
 	@Column(name="v_gstNo")
 	private String gstNo;
-	@Column(name="createdBy")
+	@Column(name="v_createdBy")
 	private String createdBy;
 	@Column(name="v_createdAt")
 	private LocalDateTime createdAt;
